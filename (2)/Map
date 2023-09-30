@@ -107,7 +107,7 @@ end)()
 
 
 --// criando Library //
-local Window = Library.CreateLib("ws-Rawnder 'Car Dealership Tycoon' { " .. sv .. " } 🇱 🇲 ", ttb)
+local Window = Library.CreateLib("In-Rawnder 'Break In 2' { " .. sv .. " } 🇱 🇲 ", ttb)
 
 --// Abas da library //
 local plrM = Window:NewTab("Items")
