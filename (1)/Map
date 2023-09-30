@@ -2,7 +2,7 @@
 local Library = loadstring(game:HttpGet("https://bit.ly/Kavo-Ui-2"))();
 
 --// Loadstrings //
-loadstring(game:HttpGet("https://bit.ly/typeSpeed-script"))();
+loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/Break-in/main/Info"))();
 AkaliNotif = loadstring(game:HttpGet("https://bit.ly/3OnnrTi"))();
 
 --// Variáveis Locais //
@@ -11,7 +11,6 @@ local Lob_1 = 3851622790
 local Lob_2 = 13864661000
 local Break_1 = 4620170611
 local Break_2 = 13864667823
-local sv = "V1"
 local tabb = true
 local plr = game:GetService("Players").LocalPlayer
 local player, Player = plr, plr
