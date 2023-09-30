@@ -11,7 +11,6 @@ local Lob_1 = 3851622790
 local Lob_2 = 13864661000
 local Break_1 = 4620170611
 local Break_2 = 13864667823
-local sv = "V1"
 local tabb = true
 local plr = game:GetService("Players").LocalPlayer
 local player, Player = plr, plr
@@ -63,28 +62,6 @@ plr.CharacterAdded:Connect(function()
 end)
 
 coroutine.wrap(function()
-
-    local function annoyfunction()
-    if Wrkspc.PlayerVehicles:FindFirstChild("Vehicle_"..Player.Name) == nil then
-        game:GetService("ReplicatedStorage").Remotes.SpawnVehicle:InvokeServer(1, charr.HumanoidRootPart.CFrame)
-        task.wait(1)
-        main = Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Mass
-    else
-        main = Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Mass
-    end
-    local goal = Players[target]
-    repeat task.wait() until goal.charr
-    main.CFrame = (goal.charr.LowerTorso.CFrame * CFrame.Angles(math.random(0.5, 2),math.random(0.5, 2),math.random(0.5, 2)))
-    charr.HumanoidRootPart.CFrame = Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Mass.CFrame
-    fireproximityprompt(Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].DriveSeat.Prompt, 10)
-    if getgenv().settingsTable.annoytoggle == false then
-        for i = 1,20 do task.wait()
-            main.CFrame = main.CFrame
-            task.wait(0.05)
-        end
-    end
-end
-
     local function nilbear() end
 
     local function ForceThePlayerKebin(string)
@@ -105,8 +82,8 @@ end
 end)()
 
 
-     --// criando Library //
-local Window = Library.CreateLib("ws-Rawnder 'Car Dealership Tycoon' { " .. sv .. " } 🇱 🇲 ", ttb)
+--// criando Library //
+local Window = Library.CreateLib("In-Rawnder 'Break In 1' { " .. sv .. " } 🇱 🇲 ", ttb)
 
 --// Abas da library //
 local plrR = Window:NewTab("Roles")
@@ -114,6 +91,7 @@ local plrS = Window:NewTab("Player")
 local plrD = Window:NewTab("Ui") 
 local plrO = Window:NewTab("Others")
 local info = Window:NewTab("info")
+
     
 --// Seções da Library //
 local plrR_ = plrR:NewSection("Roles (free)")
@@ -152,8 +130,8 @@ coroutine.wrap(function()
     end)()
     inf3:UpdateButton("Id Game: " .. bs)
     inf5:UpdateButton("Created By Liver zMods")
-    inf2:UpdateButton("Game: Break In 2 (Lobby)")
-    while task.wait(0.25) do
+    inf2:UpdateButton("Game: Break In 1 (Lobby)")
+    while task.wait(0.5) do
         local pl_rs = game.Players:GetPlayers()
         inf:UpdateButton("Players: " .. #pl_rs .. "/" .. game.Players.MaxPlayers)
         inf6:UpdateButton("Latest Update: " ..dat.. "/" ..mon.. "/" ..yea)
@@ -172,26 +150,24 @@ end)()
 
 task.wait()
 
-
 --// Aba roles //
-plrR_:NewButton("Nerd", "", function()
+plrR_:NewButton("Guard", "", function()
     local script = {
-        [1] = "Book",
+        [1] = "Gun",
         [2] = true
     }
-    
+
     game:GetService("ReplicatedStorage").RemoteEvents.OutsideRole:FireServer(unpack(script))
 end)
 
-plrR_:NewButton("Hacker", "", function()
+plrR_:NewButton("S.W.A.T", "", function()
     local script = {
-        [1] = "Phone",
+        [1] = "SwatGun",
         [2] = true
     }
-    
+
     game:GetService("ReplicatedStorage").RemoteEvents.OutsideRole:FireServer(unpack(script))
 end)
-
 
 --// aba Player //
 local plrS_ = plrS:NewSection("WalkSpeed")
@@ -546,8 +522,14 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/advxzivhsjjdhxhsidifv
 plrO_:NewButton("Fly Gui ", "Gui Fly feito por min", function()
 loadstring(game:HttpGet("https://pastebin.com/raw/TGxqcQdY", true))()
 end)
+plrO_:NewButton("Fly Car Gui", "vooe de carro, suporte para todos executores Moblies", function()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/LiverMods/ModsScriptsGames-/main/FlyCar'))()
+    end)  
 
 --// etcs //
+
+
+
 coroutine.wrap(function()
     local gui = Instance.new("ScreenGui")
     gui.Name = "JumpButton"
