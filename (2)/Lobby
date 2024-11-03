@@ -57,7 +57,6 @@ end)()
 
 --// functions //
 
-plotnum = tostring(getrenv()._G.Plot)
 plr.CharacterAdded:Connect(function()
     repeat task.wait()
     until plr ~= nil and charr ~= nil and bolet ~= nil and HRP ~= nil
