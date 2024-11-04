@@ -201,9 +201,7 @@ plrM_:NewButton("Add GoldenApple", "This will add all of your selections above!"
         [1] = "GoldenApple"
     }
     
-    if not plr.Backpack:FindFirstChild("GoldenApple") then
-        game:GetService("ReplicatedStorage").Events.GiveTool:FireServer(unpack(args))
-    end
+    game:GetService("ReplicatedStorage").Events.GiveTool:FireServer(unpack(args))
 end)
 
 plrM_:NewTextBox("enter the quantity", "", function(value)
