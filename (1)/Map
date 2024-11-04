@@ -6,6 +6,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/Break-in/ma
 AkaliNotif = loadstring(game:HttpGet("https://bit.ly/3OnnrTi"))();
 
 --// Variáveis Locais //
+local startTime = 0
 local bs = game.PlaceId
 local Lob_1 = 3851622790
 local Lob_2 = 13864661000
@@ -14,6 +15,7 @@ local Break_2 = 13864667823
 local tabb = true
 local dat, mon, yea = 29, 09, 2023
 local sv = "V1"
+local timeString = "nil"
 local plr = game:GetService("Players").LocalPlayer
 local player, Player = plr, plr
 local charr = plr.Character or plr.CharacterAdded:Wait();
@@ -26,7 +28,6 @@ local Plrs, Players = plrs, players
 local a, b, c, d, e = game.Players.LocalPlayer.Character.Humanoid.WalkSpeed, game.Players.LocalPlayer.Character.Humanoid.JumpPower, workspace.Gravity, workspace.CurrentCamera.FieldOfView
 
 --// Variáveis Globais //
-b_Player_select = "_____________"
 bs = game.PlaceId
 Lob_1 = 3851622790
 Lob_2 = 13864661000
@@ -41,33 +42,7 @@ local ttb = {
     TextColor = Color3.fromRGB(255, 255, 255),
     ElementColor = Color3.fromRGB(255, 255, 255)
 }
-
-local players = {}
-
-local function updatePlayerList()
-    for _, player in ipairs(game:GetService("Players"):GetPlayers()) do
-        if player ~= plr then
-            if player ~= "jordan_NSS4" or player ~= "jordan_NSS3" then
-                table.insert(players, player.Name)
-            end
-        end
-    end
-end
-
-game:GetService("Players").PlayerAdded:Connect(updatePlayerList)
-
-game:GetService("Players").PlayerRemoving:Connect(function(player)
-    for i, playerName in ipairs(players) do
-        if playerName == player.Name then
-            table.remove(players, i)
-            break
-        end
-    end
-end)
-
-updatePlayerList()
 --// FIM //
-
 
 coroutine.wrap(function()
      task.spawn(function()
@@ -82,6 +57,24 @@ end)()
 
 
 --// functions //
+local function randomString()
+	local length = math.random(10,20)
+	local array = {}
+	for i = 1, length do
+		array[i] = string.char(math.random(32, 126))
+	end
+	return table.concat(array)
+end
+
+local function GetColor(type, R,G,B)
+    if type == "now" then
+        return Color3.fromRGB(R,G,B)
+    elseif type == "classic" then
+        return Color3.new(R,G,B)
+    elseif type == "specific" then
+        return Color3.fromHSV(R,G,B)
+    end
+end
 
 plr.CharacterAdded:Connect(function()
     repeat task.wait()
@@ -109,24 +102,23 @@ coroutine.wrap(function()
 end)()
 
 
-     --// criando Library //
-local Window = Library.CreateLib("In-Rawnder 'Break In 1' { " .. sv .. " } 🇱 🇲 ", ttb)
+--// criando Library //
+local Window = Library.CreateLib("In-Rawnder 'Break In 2' { " .. sv .. " } 🇱 🇲 ", ttb)
 
 --// Abas da library //
-local plrK = Window:NewTab("Kill menu")
 local plrM = Window:NewTab("Items")
 local plrA = Window:NewTab("Weapons")
-local plrR = Window:NewTab("Roles")
+local Sp = Window:NewTab("special")
 local plrS = Window:NewTab("Player") 
 local plrD = Window:NewTab("Ui") 
 local plrO = Window:NewTab("Others")
 local info = Window:NewTab("info")
     
 --// Seções da Library //
-local plrK_ = plrK:NewSection("Escreva o nome")
+local plrM_ = plrM:NewSection("Super Food")
 local plrA_ = plrA:NewSection("Weapons")
-local plrM_ = plrM:NewSection("Food")
-local plrS_ = plrS:NewSection("Player: " .. plr.DisplayName or plr.Name)
+local Sp_ = Sp:NewSection("Special")
+local plrS_ = plrS:NewSection("Player")
 local plrD_ = plrD:NewSection("Ui colors")
 local plrO_ = plrO:NewSection("Others")
 local info_ = info:NewSection("Player Local: " .. plr.DisplayName or plr.Name)
@@ -161,7 +153,7 @@ coroutine.wrap(function()
     end)()
     inf3:UpdateButton("Id Game: " .. bs)
     inf5:UpdateButton("Created By Liver zMods")
-    inf2:UpdateButton("Game: Break In 1 (History)")
+    inf2:UpdateButton("Game: Break In 2 (History)")
     while task.wait(0.5) do
         local pl_rs = game.Players:GetPlayers()
         inf:UpdateButton("Players: " .. #pl_rs .. "/" .. game.Players.MaxPlayers)
@@ -174,7 +166,7 @@ coroutine.wrap(function()
     task.wait(0.1)
     Library:ChangeColor("SchemeColor", Color3.fromRGB(227, 27, 27))
     Library:ChangeColor("Background", Color3.fromRGB(10, 10, 10))
-    Library:ChangeColor("Header", Color3.fromRGB(5, 5, 5)) task.wait()
+    Library:ChangeColor("Header", Color3.fromRGB(5, 5, 5))
     Library:ChangeColor("TextColor", Color3.fromRGB(255, 255, 255))
     Library:ChangeColor("ElementColor", Color3.fromRGB(20, 20, 20))
 end)()
@@ -184,13 +176,73 @@ task.wait()
 
 --// 'botões' e 'toggles' //
 --// aba main //
-plrM_:NewToggle("Apple", "", function(value)
+plrM_:NewToggle("Golden Pizza", "she fills your life with 75 energy", function(value)
+    pcall(function()
+        pizza_gold = value
+    end)
+end)
+
+plrM_:NewToggle("Rainbow Pizza", "Choose a skill when ingesting", function(value)
+    pcall(function()
+        pizza_rgb = value
+    end)
+end)
+
+plrM_:NewButton("Rainbow Pizza Box", "Choose a skill when ingesting", function()
+    local script = {
+        [1] = "RainbowPizzaBox"
+    }
+    
+     game:GetService("ReplicatedStorage").Events.GiveTool:FireServer(unpack(script))
+end)
+
+plrM_:NewButton("Add GoldenApple", "This will add all of your selections above!", function()
+    local args = {
+        [1] = "GoldenApple"
+    }
+    
+    if not plr.Backpack.GoldenApple then
+        game:GetService("ReplicatedStorage").Events.GiveTool:FireServer(unpack(args))
+    end
+end)
+
+plrM_:NewTextBox("enter the quantity", "", function(value)
+    pcall(function()
+        number_2 = value
+    end)
+end)
+
+plrM_:NewButton("Apply", "This will add all of your selections above!", function()
+    if pizza_gold then
+        local args = {
+            [1] = "GoldPizza"
+        }
+        
+        for v = 1, number_2 do task.wait(0.005)
+            game:GetService("ReplicatedStorage").Events.GiveTool:FireServer(unpack(args))
+        end
+    end
+    
+    if pizza_rgb then
+        local args = {
+            [1] = "RainbowPizza"
+        }
+        
+        for v = 1, number_2 do task.wait(0.005)
+            game:GetService("ReplicatedStorage").Events.GiveTool:FireServer(unpack(args))
+        end
+    end
+end)
+
+local plrM_ = plrM:NewSection("Foods")
+
+plrM_:NewToggle("Apple 🍎", "", function(value)
     pcall(function()
         apple = value
     end)
 end)
 
-plrM_:NewToggle("Cookie", "", function(value)
+plrM_:NewToggle("Cookie 🍪", "", function(value)
     pcall(function()
         cookie = value
     end)
@@ -198,194 +250,239 @@ end)
 
 plrM_:NewToggle("Chips", "", function(value)
     pcall(function()
-        chips = value
+        local script = {
+            [1] = "Chips"
+        }
+
+        game:GetService("ReplicatedStorage").Events.GiveTool:FireServer(unpack(script))
     end)
 end)
 
-plrM_:NewToggle("Bloxy Cola", "", function(value)
+plrM_:NewToggle("Bloxy Cola 🥤", "", function(value)
     pcall(function()
         bloxycola = value
     end)
 end)
 
-plrM_:NewToggle("Pizza", "", function(value)
+plrM_:NewToggle("Bloxy Cola (rotten) 🥤", "", function(value)
+    pcall(function()
+        Expiredbloxycola = value
+    end)
+end)
+
+plrM_:NewToggle("Pizza 🍕", "", function(value)
     pcall(function()
          pizza = value
     end)
 end)
 
-plrM_:NewButton("Lollipop", "", function()
-    pcall(function()
-        local script = {
-            [1] = "Lollipop"
-        }
-
-        game:GetService("ReplicatedStorage").RemoteEvents.GiveTool:FireServer(unpack(script))
-    end)
+plrM_:NewButton("⚡ Bottle ⚡", "", function()
+    local script = {
+        [1] = "Bottle"
+    }    
+    
+    game:GetService("ReplicatedStorage").Events.GiveTool:FireServer(unpack(script))
 end)
 
 plrM_:NewTextBox("enter the quantity", "", function(value)
-    pcall(function()
-        number = value
-    end)
+    number = value
 end)
 
-plrM_:NewButton("Apply", "", function(value)
-    game.StarterGui:SetCore("SendNotification", {
-        Title = "Success";
-        Text = "Credit: Liver zMods!";
-        Icon = "rbxthumb://type=Asset&id=14378716037&w=150&h=150";
-        Duration = 3;
-    })
+plrM_:NewButton("Apply", "", function()
     if apple then
         local script = {
             [1] = "Apple"
         }
         
-        for v = 1, number do task.wait(0.015)
-            game:GetService("ReplicatedStorage").RemoteEvents.GiveTool:FireServer(unpack(script))
+        for v = 1, number do task.wait(0.0025)
+            game:GetService("ReplicatedStorage").Events.GiveTool:FireServer(unpack(script))
         end
-    end
+    end task.wait()
     
     if cookie then
         local script = {
             [1] = "Cookie"
         }
 
-        for v = 1, number do task.wait(0.015)
-            game:GetService("ReplicatedStorage").RemoteEvents.GiveTool:FireServer(unpack(script))
+        for v = 1, number do task.wait(0.0025)
+            game:GetService("ReplicatedStorage").Events.GiveTool:FireServer(unpack(script))
         end
-    end
+    end task.wait()
     
-    if chips then
+    if Expiredbloxycola then
         local script = {
-            [1] = "Chips"
+            [1] = "ExpiredBloxyCola"
         }
 
-        for v = 1, number do task.wait(0.015)
-            game:GetService("ReplicatedStorage").RemoteEvents.GiveTool:FireServer(unpack(script))
+        for v = 1, number do task.wait(0.0025)
+            game:GetService("ReplicatedStorage").Events.GiveTool:FireServer(unpack(script))
         end
-    end
+    end task.wait()
     
     if bloxycola then
         local script = {
             [1] = "BloxyCola"
         }
 
-        for v = 1, number do task.wait(0.015)
-            game:GetService("ReplicatedStorage").RemoteEvents.GiveTool:FireServer(unpack(script))
+        for v = 1, number do task.wait(0.0025)
+            game:GetService("ReplicatedStorage").Events.GiveTool:FireServer(unpack(script))
         end
-    end
+    end task.wait()
+    
+    if pizza then
+        local script = {
+            [1] = "Pizza"
+        }
+
+        for v = 1, number do task.wait(0.0025)
+            game:GetService("ReplicatedStorage").Events.GiveTool:FireServer(unpack(script))
+        end
+    end task.wait()
+    game.StarterGui:SetCore("SendNotification", {
+        Title = "Success";
+        Text = "Credit: Liver zMods!";
+        Icon = "rbxthumb://type=Asset&id=14378716037&w=150&h=150";
+        Duration = 4;
+    })
 end)
 
 local plrM_ = plrM:NewSection("Life kit")
 
-plrM_:NewButton("Med Kit", "", function()
+plrM_:NewButton("Med Kit 🩹", "", function()
+    task.wait()
     local script = {
         [1] = "MedKit"
     }
 
-    game:GetService("ReplicatedStorage").RemoteEvents.GiveTool:FireServer(unpack(script))
-end)
-
-plrM_:NewButton("Cure", "", function()
-    local script = {
-        [1] = "Cure"
-    }
-
-    game:GetService("ReplicatedStorage").RemoteEvents.GiveTool:FireServer(unpack(script))
+    game:GetService("ReplicatedStorage").Events.GiveTool:FireServer(unpack(script))
 end)
 
 local plrM_ = plrM:NewSection("Others")
 
-plrM_:NewButton("Plank", "", function()
+plrM_:NewButton("Battery 🔋", "", function()
+    task.wait()
     local script = {
-        [1] = "Plank"
-    }
-
-    game:GetService("ReplicatedStorage").RemoteEvents.GiveTool:FireServer(unpack(script))
-end)
-
---// Aba Weapos //
-plrA_:NewButton("Spanner 🔧", "", function()
-    local args = {
-        [1] = true,
-        [2] = "Spanner"
+        [1] = "Battery"
     }
     
-    game:GetService("ReplicatedStorage").RemoteEvents.BasementWeapon:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.GiveTool:FireServer(unpack(script))
 end)
 
-plrA_:NewButton("Sword 🗡️", "", function()
-    local args = {
-        [1] = true,
-        [2] = "LinkedSword"
+plrM_:NewButton("Key 🔑", "", function()
+    task.wait()
+    local script = {
+        [1] = "Key"
     }
     
-    game:GetService("ReplicatedStorage").RemoteEvents.BasementWeapon:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.GiveTool:FireServer(unpack(script))
 end)
 
-plrA_:NewButton("Key 🔑", "", function()
-    local args = {
-        [1] = true,
-        [2] = "Key"
+plrM_:NewButton("Golden Key 🔑", "", function()
+    task.wait()
+    local script = {
+        [1] = "Key"
     }
     
-    game:GetService("ReplicatedStorage").RemoteEvents.BasementWeapon:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.GiveTool:FireServer(unpack(script))
 end)
 
-plrA_:NewButton("Spanner 🔧", "", function()
+plrM_:NewButton("Ladder 🪜", "", function()
+    task.wait()
     local args = {
-        [1] = true,
-        [2] = "Breaker"
+        [1] = "Ladder"
+    }    
+    
+    game:GetService("ReplicatedStorage").Events.GiveTool:FireServer(unpack(args))
+end)
+
+plrM_:NewButton("Mouse 🐀", "", function()
+    task.wait()
+    local args = {
+        [1] = "Louise"
     }
     
-    game:GetService("ReplicatedStorage").RemoteEvents.BasementWeapon:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.GiveTool:FireServer(unpack(args))
 end)
 
-plrA_:NewButton("Bat", "", function()
+--// Aba Weapons //
+plrA_:NewButton("Wrench 🔧", "", function()
+    task.wait()
     local args = {
-        [1] = true,
-        [2] = "Bat"
+        [1] = 3,
+        [2] = "Wrench",
+        [3] = "Weapons",
+        [4] = "FoxIDM"
     }
     
-    game:GetService("ReplicatedStorage").RemoteEvents.BasementWeapon:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.Vending:FireServer(unpack(args))
 end)
 
---// Aba Kill //
-local gosth = plrK_:NewDropdown("Players", "", players, function(type)
-    b_Player_select = type
-end)
-
-local plrkK_ = plrK_:NewButton("Kill", "", function()
-    local plrName = b_Player_select
+plrA_:NewButton("Broom 🧹", "", function()
+    task.wait()
     local args = {
-        [1] = 1,
-        [2] = game:GetService("Players")[plrName]
+        [1] = 3,
+        [2] = "Broom",
+        [3] = "Weapons",
+        [4] = "FoxIDM"
     }
     
-    task.spawn(function()
-        pcall(function()
-            game:GetService("ReplicatedStorage").RemoteEvents.ToxicDrown:FireServer(unpack(args))
-        end)
-    end)
+    game:GetService("ReplicatedStorage").Events.Vending:FireServer(unpack(args))
 end)
 
-coroutine.wrap(function()
-    while task.wait(0.5) do
-        plrkK_:UpdateButton("Kill: " ..b_Player_select)
-        gosth:Refresh(players)
-    end
-end)()
-
-plrK_:NewButton("Kill All", "", function()
-    for _, plr in ipairs(game:GetService("Players"):GetPlayers()) do
-        if plr ~= game.Players.LocalPlayer then
-            game:GetService("ReplicatedStorage").RemoteEvents.ToxicDrown:FireServer(1, plr)
-        end
-    end
+plrA_:NewButton("Hammer 🔨", "", function()
+    task.wait()
+    local args = {
+        [1] = 3,
+        [2] = "Hammer",
+        [3] = "Weapons",
+        [4] = "FoxIDM"
+    }
+    
+    game:GetService("ReplicatedStorage").Events.Vending:FireServer(unpack(args))
 end)
 
+plrA_:NewButton("Pitchfork", "", function()
+    task.wait()
+    local args = {
+        [1] = 3,
+        [2] = "Pitchfork",
+        [3] = "Weapons",
+        [4] = "FoxIDM"
+    }
+    
+    game:GetService("ReplicatedStorage").Events.Vending:FireServer(unpack(args))
+end)
+
+local plrA_ = plrA:NewSection("Level 3 Armor")
+
+plrA_:NewButton("Armor", "", function()
+    task.wait()
+    local args = {
+        [1] = 3,
+        [2] = "Armor2",
+        [3] = "Armor",
+        [4] = game.Players.LocalPlayer.Name ,
+        [5] = 1
+    }
+    
+    game:GetService("ReplicatedStorage").Events.Vending:FireServer(unpack(args))
+end)
+
+Sp_:NewButton("Speed", "", function()
+    local args = {
+        [1] = "Speed"
+    }
+    
+    game:GetService("ReplicatedStorage").Events.RainbowWhatStat:FireServer(unpack(args))
+end)
+
+Sp_:NewButton("Strength", "", function()
+    local args = {
+        [1] = "Strength"
+    }
+    
+    game:GetService("ReplicatedStorage").Events.RainbowWhatStat:FireServer(unpack(args))
+end)
 
 --// aba Player //
 local plrS_ = plrS:NewSection("WalkSpeed")
@@ -397,9 +494,11 @@ plrS_:NewTextBox("Speed", "Enter the number", function(type)
         charr.Humanoid.WalkSpeed = velocidade
     end)
 end)
+
 plrS_:NewButton("SET", "speed!", function()
     charr.Humanoid.WalkSpeed = velocidade
 end)
+
 plrS_:NewToggle("Auto SET", "speed!!", function(mmRawnder)
     speeder = mmRawnder
     coroutine.wrap(function()
@@ -413,6 +512,7 @@ plrS_:NewToggle("Auto SET", "speed!!", function(mmRawnder)
         end)
     end)()
 end)
+
 plrS_:NewButton("Restore Speed", "Reset", function()
     charr.Humanoid.WalkSpeed = a
     task.wait()
@@ -425,9 +525,11 @@ plrS_:NewTextBox("jump", "enter the number", function(type)
     salto = type
     charr.Humanoid.JumpPower = salto
 end)
+
 plrS_:NewButton("SET", "jump!!", function()
     charr.Humanoid.JumpPower = salto
 end)
+
 plrS_:NewToggle("Auto SET", "jump!!", function(mmRawnder)
     jumper = mmRawnder
     coroutine.wrap(function()
@@ -441,6 +543,7 @@ plrS_:NewToggle("Auto SET", "jump!!", function(mmRawnder)
         end)
     end)()
 end)
+
 plrS_:NewButton("Restore Jump", "resets", function()
     charr.Humanoid.JumpPower = b
     task.wait()
@@ -453,9 +556,11 @@ plrS_:NewTextBox("Gravity", "change your gravity", function(type)
     gravidade = type
     Gravity(gravidade)
 end)
+
 plrS_:NewButton("SET", "gravity!!", function()
     Gravity(gravidade)
 end)
+
 plrS_:NewButton("restore gravity", "resets", function()
     Gravity(c)
     task.wait()
@@ -468,24 +573,20 @@ plrS_:NewTextBox("Fov camera", "enter the number", function(type)
     camera = type
     workspace.CurrentCamera.FieldOfView = camera
 end)
+
 plrS_:NewButton("SET", "Fov!!", function()
     workspace.CurrentCamera.FieldOfView = camera
 end)
+
 plrS_:NewButton("To restore Fov", "resets", function()
     workspace.CurrentCamera.FieldOfView = d
     task.wait()
 end)
 
-local plrS_ = plrS:NewSection("Life [not 'FE']")
-plrS_:NewTextBox("Your Life", "Enter the number", function(type)
-    vida = nil
-    task.wait()
-    vida = type
-    playerHP(vida)
-end)
 plrS_:NewButton("SET", "health!", function()
     playerHP(vida)
 end)
+
 plrS_:NewButton("Resetar", "Redefine", function()
     playerHP(0)
     task.wait()
@@ -539,8 +640,8 @@ end)
 end)
 
 plrD_:NewColorPicker("Background", "Change the interface color", ttb.Background, function(color3)
-coroutine.wrap(function()
-    Library:ChangeColor("Background", color3)
+    coroutine.wrap(function()
+        Library:ChangeColor("Background", color3)
     end)()
 end)
 
@@ -549,20 +650,20 @@ plrD_:NewColorPicker("Header", "Change the interface color", ttb.Header, functio
 end)
 
 plrD_:NewColorPicker("Text Color", "Change the interface color", ttb.TextColor, function(color3)
-coroutine.wrap(function()
-    Library:ChangeColor("TextColor", color3)
+    coroutine.wrap(function()
+        Library:ChangeColor("TextColor", color3)
     end)()
 end)
 
 plrD_:NewColorPicker("Element Color", "Change the interface color", ttb.ElementColor, function(color3)
-coroutine.wrap(function()
-    Library:ChangeColor("ElementColor", color3)
+    coroutine.wrap(function()
+        Library:ChangeColor("ElementColor", color3)
     end)()
 end)
 
 plrD_:NewColorPicker("Element Color", "Change the interface color", ttb.ElementColor, function(color3)
-coroutine.wrap(function()
-    Library:ChangeColor("ElementColor", color3)
+    coroutine.wrap(function()
+        Library:ChangeColor("ElementColor", color3)
     end)()
 end)
 
@@ -597,191 +698,74 @@ end)
 
    
 plrO_:NewButton("F3X", "e último", function()
-        loadstring(game:GetObjects("rbxassetid://6695644299")[1].Source)()
-    end)
-    plrO_:NewButton("Infinite Yield", "comando de adms", function()
+    loadstring(game:GetObjects("rbxassetid://6695644299")[1].Source)()
+end)
+
+plrO_:NewButton("Infinite Yield", "comando de adms", function()
 loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-    end)     
-    plrO_:NewButton("anti-lag", "reduz o lag", function()
- coroutine.wrap(function()
-    local executed = false
-if executed then return end
-if not executed then
-    
-
-    
-    executed = true
-
-
-    
-local lighting = game:GetService("Lighting")
-local player = game.Players.LocalPlayer
-
-local function Time(hour)
-    pcall(function()
-        lighting.TimeOfDay = hour
-    end)
-end
-
-
-coroutine.wrap(function()
-    while true do 
-        Time(15)
-        task.wait()
-    end
-end)()
-
-task.spawn(function()
-    
-
-task.wait(0.05)
-
-local decalsyeeted = true 
-local g = game
-local w = g.Workspace
-local l = g.Lighting
-local t = w.Terrain
-t.WaterWaveSize = 0
-t.WaterWaveSpeed = 0
-t.WaterReflectance = 0
-t.WaterTransparency = 0
-for i = 1, 50 do
-l.GlobalShadows = false
-l.GlobalShadows = false
-end
-l.FogEnd = 9e9
-l.Brightness = 0
-settings().Rendering.QualityLevel = "Level01"
-for i, v in pairs(g:GetDescendants()) do
-    if v:IsA("Part") or v:IsA("Union") or v:IsA("CornerWedgePart") or v:IsA("TrussPart") then
-        v.Material = "Plastic"
-        v.Reflectance = 0
-    elseif v:IsA("Decal") or v:IsA("Texture") and decalsyeeted then
-        v.Transparency = 1
-    elseif v:IsA("ParticleEmitter") or v:IsA("Trail") then
-        v.Lifetime = NumberRange.new(0)
-    elseif v:IsA("Explosion") then
-        v.BlastPressure = 1
-        v.BlastRadius = 1
-    elseif v:IsA("Fire") or v:IsA("SpotLight") or v:IsA("Smoke") or v:IsA("Sparkles") then
-        v.Enabled = false
-    elseif v:IsA("MeshPart") then
-        v.Material = "Plastic"
-        v.Reflectance = 0
-        v.TextureID = 10385902758728957
-    end
-end
-for i, e in pairs(l:GetChildren()) do
-    if e:IsA("BlurEffect") or e:IsA("SunRaysEffect") or e:IsA("ColorCorrectionEffect") or e:IsA("BloomEffect") or e:IsA("DepthOfFieldEffect") then
-        e.Enabled = false
-    end
-  end
 end)
 
-task.spawn(function()
-spawn(function()
-task.spawn(function()
-spawn(function()
-local player = game.Players.LocalPlayer
-
-
-player.CharacterAdded:Connect(destroyCharacter)
-destroyCharacter(player.Character)
-
-while task.wait(0.15) do
-    if player.Character then
-        pcall(function()
-            destroyCharacter(player.Character)
-        end)
-    end
-end
-end)
-end)
-end)
+plrO_:NewButton("Keyboard", "E Usado Muito em celular", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/advxzivhsjjdhxhsidifvsh/mobkeyboard/main/main.txt", true))()
 end)
 
-
-task.spawn(function()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/--script/main/Bob"))()
-	_G.BoostFps = true
-		
-		for _, v in pairs(game:GetDescendants()) do
-			pcall(function()
-				v.Material = Enum.Material.Plastic
-				States[v.Name] = {Material = v.Material}
-			end)
-		end
-task.wait(0.7)
-_G.autore = false
-_G.refresh = false
-
-
-
-		while wait() do
-			if _G.BoostFps then
-				for i,v in pairs(game.Players:GetChildren()) do
-					if v ~= game.Players.LocalPlayer then
-						pcall(function()
-							if v.Character.Humanoid.Health < 1 then
-								v.Character:Destroy()
-							end
-						end)
-					end
-				end
-			end
-		end
-    end)     executed = true
-  end
-  end)()
-  end)
- plrO_:NewButton("Keyboard", "E Usado Muito em celular", function()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/advxzivhsjjdhxhsidifvsh/mobkeyboard/main/main.txt", true))()
-    end)    
 plrO_:NewButton("Fly Gui ", "Gui Fly feito por min", function()
-loadstring(game:HttpGet("https://pastebin.com/raw/TGxqcQdY", true))()
+    loadstring(game:HttpGet("https://pastebin.com/raw/TGxqcQdY", true))()
 end)
+
 plrO_:NewButton("Fly Car Gui", "vooe de carro, suporte para todos executores Moblies", function()
-loadstring(game:HttpGet('https://raw.githubusercontent.com/LiverMods/ModsScriptsGames-/main/FlyCar'))()
-    end)  
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/LiverMods/ModsScriptsGames-/main/FlyCar'))()
+end)  
 
 --// etcs //
-
-
-
-coroutine.wrap(function()
-    local gui = Instance.new("ScreenGui")
-    gui.Name = "JumpButton"
-    gui.Parent = game.Players.LocalPlayer.PlayerGui
+task.spawn(function()
     coroutine.wrap(function()
-        while task.wait() do
-            gui.RobloxLocked = true
-            gui.ResetOnSpawn = false
-            gui.Enabled = true
-        end
-    end)()
-
-    local imageButton = Instance.new("ImageButton")
-    imageButton.Size = UDim2.new(0.0325, 0, 0.076, 0)
-    imageButton.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-    imageButton.BackgroundTransparency = 0.450101838
-    imageButton.Image = "rbxassetid://14133402605"
-    imageButton.Position = UDim2.new(0.20, 0, 0, 0)
-    imageButton.Draggable = true
-    imageButton.Parent = gui
-    imageButton.MouseButton1Click:Connect(function()
-        task.spawn(function()
-            local Sound = Instance.new("Sound", game:GetService("SoundService"))
-            Sound.SoundId = "rbxassetid://9119720940"
-            Sound:Play()
-            for i = 1, 5 do
-                task.wait()
-            end 
-            
-            Library:ToggleUI()
+        gui = Instance.new("ScreenGui")
+        gui.Name = randomString()
+        gui.Parent = game.Players.LocalPlayer.PlayerGui
+        gui.DisplayOrder = 9e9
+        coroutine.wrap(function()
+            while task.wait() do
+                gui.RobloxLocked = true
+                gui.ResetOnSpawn = false
+                gui.Enabled = true
+            end
+        end)()
+    
+        local imageButton = Instance.new("ImageButton")
+        imageButton.Name = randomString()
+        imageButton.Size = UDim2.new(0.0325, 0, 0.076, 0)
+        imageButton.BackgroundColor3 = GetColor("now", 20, 20, 25)
+        imageButton.BackgroundTransparency = 0.1
+        imageButton.Image = "rbxassetid://18293640018"
+        imageButton.Position = UDim2.new(0.20, 0, 0, 0)
+        imageButton.Draggable = true
+        
+        local imageButtonBorder = Instance.new("UIStroke", imageButton)
+        imageButtonBorder.Color = GetColor("now", 71, 71, 71)
+        imageButtonBorder.Thickness = 1.5
+        imageButton.Parent = gui
+        
+        booletan = false
+        
+        imageButton.MouseButton1Click:Connect(function()
+            task.spawn(function()
+                local Sound = Instance.new("Sound", game:GetService("SoundService"))
+                Sound.SoundId = "rbxassetid://4601634016"
+                booletan = not booletan
+                imageButton.Image = booletan and "rbxassetid://18293634731" or "rbxassetid://18293640018"
+                Sound:Play()
+                
+                for i = 1, 5 do
+                    task.wait()
+                end 
+                
+                Library:ToggleUI()
+            end)
         end)
-    end)
-
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0.2, 0.1)
-    corner.Parent = imageButton
-end)()
+        
+        local corner = Instance.new("UICorner")
+        corner.CornerRadius = UDim.new(0.2, 0.1)
+        corner.Parent = imageButton
+    end)()
+end)
