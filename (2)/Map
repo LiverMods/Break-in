@@ -357,6 +357,24 @@ end)
 
 local plrM_ = plrM:NewSection("Others")
 
+plrM_:NewButton("get all collectibles", "", function()
+    task.wait()
+    local args = {
+        [1] = "HatCollected",
+        [2] = true
+    }
+    local args2 = {
+        [1] = "MaskCollected"
+    }
+    local args3 = {
+        [1] = "CrowbarCollected"
+    }
+    
+    game:GetService("ReplicatedStorage").Events.LarryEndingEvent:FireServer(unpack(args))
+    game:GetService("ReplicatedStorage").Events.LarryEndingEvent:FireServer(unpack(args2))
+    game:GetService("ReplicatedStorage").Events.LarryEndingEvent:FireServer(unpack(args3))
+end)
+
 plrM_:NewButton("Battery 🔋", "", function()
     task.wait()
     local script = {
