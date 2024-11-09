@@ -6,6 +6,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/Break-in/ma
 AkaliNotif = loadstring(game:HttpGet("https://bit.ly/3OnnrTi"))();
 
 --// Variáveis Locais //
+local cloneref = cloneref or function(o) return o end
 local startTime = 0
 local bs = game.PlaceId
 local Lob_1 = 3851622790
@@ -24,6 +25,8 @@ local Character = plr.Character
 local Humanoid = charr:FindFirstChild("Humanoid");
 local HRP = charr:FindFirstChild("HumanoidRootPart");
 local plrs, players = game:GetService("Players"), game:GetService("Players");
+local MarketplaceService = cloneref(game:GetService("MarketplaceService"))
+local Asset = MarketplaceService:GetProductInfo(game.PlaceId)
 local Plrs, Players = plrs, players
 local a, b, c, d, e = game.Players.LocalPlayer.Character.Humanoid.WalkSpeed, game.Players.LocalPlayer.Character.Humanoid.JumpPower, workspace.Gravity, workspace.CurrentCamera.FieldOfView
 
@@ -153,7 +156,7 @@ coroutine.wrap(function()
     end)()
     inf3:UpdateButton("Id Game: " .. bs)
     inf5:UpdateButton("Created By Liver zMods")
-    inf2:UpdateButton("Game: Break In 2 (History)")
+    inf2:UpdateButton("Game: " .. Asset.Name)
     while task.wait(0.5) do
         local pl_rs = game.Players:GetPlayers()
         inf:UpdateButton("Players: " .. #pl_rs .. "/" .. game.Players.MaxPlayers)
